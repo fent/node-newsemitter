@@ -152,6 +152,7 @@ describe('Self manage history', function() {
 
     news.emit('foo', 'a');
     news.emit('foo', 'hello world');
+    news.emit('foo', 'hello');
     news.emit('foo', 'a');
 
     assert.deepEqual(results1, ['a']);
@@ -164,6 +165,8 @@ describe('Self manage history', function() {
     news.emit('foo', 'a');
     news.emit('foo', 'b');
     news.emit('foo', 'c');
+    news.emit('foo', 'hello world');
+    news.emit('foo', 'hello');
     news.emit('foo', 'indescrivable');
 
     assert.deepEqual(results1, ['a', 'indescrivable']);
