@@ -2,7 +2,7 @@
   "name": "newsemitter",
   "description": "An event emitter that emits only new events.",
   "keywords": ["event", "emitter", "event emitter", "publish", "subscribe", "pubsub"],
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/fent/node-newsemitter.git"
