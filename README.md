@@ -32,7 +32,7 @@ news.emit('item', { title: 'hey' });
 Creates an instance of a NewsEmitter. `options` can be
 
 * `filter` - An array of events that will be affected. If not given, events names will not be filtered.
-* 'ignore' - An array of events that will be ignored. Defaults to `['newListener']`.
+* `ignore` - An array of events that will be ignored. Defaults to `['newListener']`.
 * `maxHistory` - Maximum number of history items to remember. Default is `10`.
 * `manageHistory` - If true, does not add emitted events to history. Instead expects you to manually manage history with `addHistory()`. Defaults to `false`.
 * `comparator` - Function used to compare one event to another. Takes 2 arguments, first is possibly new arguments item, and second is item from history. Default is a deep equal function.
