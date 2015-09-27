@@ -1,7 +1,8 @@
-# node-newsemitter [![Build Status](https://secure.travis-ci.org/fent/node-newsemitter.png)](http://travis-ci.org/fent/node-newsemitter)
+# node-newsemitter
 
 An event emitter that emits only new events. Because sometimes we don't care about old events.
 
+[![Build Status](https://secure.travis-ci.org/fent/node-newsemitter.png)](http://travis-ci.org/fent/node-newsemitter) [![Dependency Status](https://gemnasium.com/fent/node-newsemitter.svg)](https://gemnasium.com/fent/node-newsemitter)
 
 # Usage
 
