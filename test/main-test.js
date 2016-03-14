@@ -100,12 +100,12 @@ describe('Filter events', function() {
 });
 
 
-describe('Custom comparator', function() {
-  var news = new NewsEmitter({ history: 50, comparator: beginsWithFoo });
+describe('Custom identifier', function() {
+  var news = new NewsEmitter({ history: 50, identifier: beginsWithFoo });
   var results1 = [];
   var results2 = [];
 
-  function beginsWithFoo(a, b) {
+  function beginsWithFoo(a) {
     return /^foo/.test(a[1]);
   }
 
@@ -117,7 +117,7 @@ describe('Custom comparator', function() {
     results2.push(item);
   });
 
-  it('Emits items in that pass comparator', function() {
+  it('Emits only items with different identifiers', function() {
     news.emit('foo', 'what');
     news.emit('foo', 'what');
     news.emit('foo', 'butt');
@@ -130,7 +130,7 @@ describe('Custom comparator', function() {
     news.emit('bar', 'foo something');
     news.emit('bar', 'oh foo');
 
-    assert.deepEqual(results1, ['what', 'what', 'butt', 'butt']);
+    assert.deepEqual(results1, ['what', 'foo']);
     assert.deepEqual(results2, ['foo', 'oh foo']);
   });
 });

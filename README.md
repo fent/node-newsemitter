@@ -35,7 +35,7 @@ Creates an instance of a NewsEmitter. `options` can be
 * `ignore` - An array of events that will be ignored. Defaults to `['newListener']`.
 * `maxHistory` - Maximum number of history items to remember. Default is `10`.
 * `manageHistory` - If true, does not add emitted events to history. Instead expects you to manually manage history with `addHistory()`. Defaults to `false`.
-* `comparator` - Function used to compare one event to another. Takes 2 arguments, first is possibly new arguments item, and second is item from history. Default is a deep equal function.
+* `identifier` - Function used to compare one event to another. Takes 1 arguments, the array-like `arguments` that `NewsEmitter#emit()` is called with. Should return a string. Default is `JSON.stringify`.
 
 ### NewsEmitter#emit(event)
 
