@@ -1,5 +1,5 @@
-var NewsEmitter = require('..')
-  , assert = require('assert')
+var NewsEmitter = require('..');
+var assert = require('assert');
 
 
 describe('NEWS Emitter', function() {
@@ -24,9 +24,9 @@ describe('NEWS Emitter', function() {
     assert.ok(!news.emit('foo', { title: 'hey' }));
 
     var expected = [
-      { title: 'hello there' }
-    , { title: 'hello world' }
-    , { title: 'hey' }
+      { title: 'hello there' },
+      { title: 'hello world' },
+      { title: 'hey' }
     ];
     assert.deepEqual(results1, expected);
   });
@@ -40,9 +40,9 @@ describe('NEWS Emitter', function() {
     assert.ok(!news.emit('bar', { title: 'hello world' }));
 
     var expected = [
-      { so: 'lucky' }
-    , { so: { so: 'lucky' } }
-    , { title: 'hello world' }
+      { so: 'lucky' },
+      { so: { so: 'lucky' } },
+      { title: 'hello world' }
     ];
     assert.deepEqual(results2, expected);
   });
@@ -82,19 +82,19 @@ describe('Filter events', function() {
     news.emit('forever', 1, 2, 3);
 
     var expected1 = [
-      ['a', 'b', undefined]
-    , ['a', 'b', 'c']
-    , ['foo', undefined, undefined]
+      ['a', 'b', undefined],
+      ['a', 'b', 'c'],
+      ['foo', undefined, undefined]
     ];
     assert.deepEqual(results1, expected1);
 
     var expected2 = [
-      ['a', 'b', undefined]
-    , [1, 2, 3]
+      ['a', 'b', undefined],
+      [1, 2, 3]
     ];
     assert.deepEqual(results2, expected2);
 
-    var expected3 = ['foo', 'foo', 'foo']
+    var expected3 = ['foo', 'foo', 'foo'];
     assert.deepEqual(results3, expected3);
   });
 });
@@ -146,8 +146,8 @@ describe('Self manage history', function() {
 
   it('Is able to compare to history items we give it', function() {
     news.addHistory('foo', [
-      { 0: 'foo', 1: 'hello' }
-    , { 0: 'foo', 1: 'hello world' }
+      { 0: 'foo', 1: 'hello' },
+      { 0: 'foo', 1: 'hello world' }
     ]);
 
     news.emit('foo', 'a');
@@ -158,8 +158,8 @@ describe('Self manage history', function() {
     assert.deepEqual(results1, ['a']);
 
     news.addHistory('foo', [
-      { 0: 'foo', 1: 'b' }
-    , { 0: 'foo', 1: 'c' }
+      { 0: 'foo', 1: 'b' },
+      { 0: 'foo', 1: 'c' }
     ]);
 
     news.emit('foo', 'a');
