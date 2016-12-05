@@ -26,10 +26,5 @@
     "istanbul": "*",
     "mocha": "*"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://github.com/fent/node-newsemitter.js/raw/master/LICENSE"
-    }
-  ]
+  "license": "MIT"
 }
