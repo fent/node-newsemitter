@@ -58,7 +58,7 @@ Adds items in `arr` as `event`'s history. Truncated as necessary based on max hi
 
 
 # Tests
-Tests are written with [mocha](http://visionmedia.github.com/mocha/)
+Tests are written with [mocha](https://mochajs.org)
 
 ```bash
 npm test
