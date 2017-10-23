@@ -1,21 +1,21 @@
-var NewsEmitter = require('..');
-var assert = require('assert');
+const NewsEmitter = require('..');
+const assert      = require('assert');
 
 
-describe('NEWS Emitter', function() {
+describe('NEWS Emitter', () => {
   var news = new NewsEmitter();
   var results1 = [];
   var results2 = [];
 
-  news.on('foo', function(item) {
+  news.on('foo', (item) => {
     results1.push(item);
   });
 
-  news.on('bar', function(item) {
+  news.on('bar', (item) => {
     results2.push(item);
   });
 
-  it('Should not emit old items', function() {
+  it('Should not emit old items', () => {
     assert.ok(news.emit('foo', { title: 'hello there' }));
     assert.ok(news.emit('foo', { title: 'hello world' }));
     assert.ok(!news.emit('foo', { title: 'hello there' }));
@@ -31,7 +31,7 @@ describe('NEWS Emitter', function() {
     assert.deepEqual(results1, expected);
   });
 
-  it('Keeps different history for each event', function() {
+  it('Keeps different history for each event', () => {
     assert.ok(news.emit('bar', { so: 'lucky' }));
     assert.ok(news.emit('bar', { so: { so: 'lucky' } }));
     assert.ok(!news.emit('bar', { so: 'lucky' }));
@@ -49,25 +49,25 @@ describe('NEWS Emitter', function() {
 });
 
 
-describe('Filter events', function() {
+describe('Filter events', () => {
   var news = new NewsEmitter({ filter: ['live', 'forever'] });
   var results1 = [];
   var results2 = [];
   var results3 = [];
 
-  news.on('live', function(a, b, c) {
+  news.on('live', (a, b, c) => {
     results1.push([a, b, c]);
   });
 
-  news.on('forever', function(a, b, c) {
+  news.on('forever', (a, b, c) => {
     results2.push([a, b, c]);
   });
 
-  news.on('item', function(item) {
+  news.on('item', (item) => {
     results3.push(item);
   });
 
-  it('Only filtered events are kept in history', function() {
+  it('Only filtered events are kept in history', () => {
     news.emit('live', 'a', 'b');
     news.emit('forever', 'a', 'b');
     news.emit('live', 'a', 'b', 'c');
@@ -100,24 +100,23 @@ describe('Filter events', function() {
 });
 
 
-describe('Custom identifier', function() {
-  var news = new NewsEmitter({ history: 50, identifier: beginsWithFoo });
+describe('Custom identifier', () => {
+  var news = new NewsEmitter({
+    history: 50,
+    identifier: a => /^foo/.test(a[1]),
+  });
   var results1 = [];
   var results2 = [];
 
-  function beginsWithFoo(a) {
-    return /^foo/.test(a[1]);
-  }
-
-  news.on('foo', function(item) {
+  news.on('foo', (item) => {
     results1.push(item);
   });
 
-  news.on('bar', function(item) {
+  news.on('bar', (item) => {
     results2.push(item);
   });
 
-  it('Emits only items with different identifiers', function() {
+  it('Emits only items with different identifiers', () => {
     news.emit('foo', 'what');
     news.emit('foo', 'what');
     news.emit('foo', 'butt');
@@ -136,15 +135,15 @@ describe('Custom identifier', function() {
 });
 
 
-describe('Self manage history', function() {
+describe('Self manage history', () => {
   var news = new NewsEmitter();
   var results1 = [];
 
-  news.on('foo', function(a) {
+  news.on('foo', (a) => {
     results1.push(a);
   });
 
-  it('Is able to compare to history items we give it', function() {
+  it('Is able to compare to history items we give it', () => {
     news.addHistory('foo', [
       { 0: 'foo', 1: 'hello' },
       { 0: 'foo', 1: 'hello world' }

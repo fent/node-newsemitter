@@ -9,10 +9,10 @@ An event emitter that emits only new events. Because sometimes we don't care abo
 # Usage
 
 ```js
-var NewsEmitter = require('newsemitter');
-var news = new NewsEmitter();
+const NewsEmitter = require('newsemitter');
+const news = new NewsEmitter();
 
-news.on('item', function(item) {
+news.on('item', (item) => {
   console.log('new item:', item.title);
 });
 
