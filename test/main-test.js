@@ -98,7 +98,7 @@ describe('Filter events', () => {
 describe('Custom identifier', () => {
   const news = new NewsEmitter({
     history: 50,
-    identifier: a => /^foo/.test(a[1]),
+    identifier: a => /^foo/.test(a[0]),
   });
   const results1 = [];
   const results2 = [];
@@ -139,10 +139,7 @@ describe('Self manage history', () => {
       results1.push(a);
     });
 
-    news.addHistory('foo', [
-      ['foo', 'hello'],
-      ['foo', 'hello world']
-    ]);
+    news.addHistory('foo', [['hello'], ['hello world']]);
 
     news.emit('foo', 'a');
     news.emit('foo', 'hello world');
@@ -151,10 +148,7 @@ describe('Self manage history', () => {
 
     assert.deepEqual(results1, ['a']);
 
-    news.addHistory('foo', [
-      ['foo', 'b'],
-      ['foo', 'c']
-    ]);
+    news.addHistory('foo', [['b'], ['c']]);
 
     news.emit('foo', 'a');
     news.emit('foo', 'b');
