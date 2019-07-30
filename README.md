@@ -4,7 +4,7 @@ An event emitter that emits only new events. Because sometimes we don't care abo
 
 [![Build Status](https://secure.travis-ci.org/fent/node-newsemitter.svg)](http://travis-ci.org/fent/node-newsemitter)
 [![Dependency Status](https://david-dm.org/fent/node-newsemitter.svg)](https://david-dm.org/fent/node-newsemitter)
-[![codecov](https://codecov.io/gh/fent/node-newsemitter/branch/master/graph/badge.svg)](https://codecov.io/gh/fent/node-newsemitter)
+[![codecov](https://codecov.io/gh/fent/node-newsemitter/branch/master/graph/badge.svg)](https://codecov.io/gh/fent/node-newsemitter) [![Greenkeeper badge](https://badges.greenkeeper.io/fent/node-newsemitter.svg)](https://greenkeeper.io/)
 
 # Usage
 
