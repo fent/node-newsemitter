@@ -6,7 +6,7 @@ export interface Options {
   ignore?: null | string[];
   maxHistory?: number;
   manageHistory?: boolean;
-  identifier?: (...args: any[]) => string;
+  identifier?: (args: any[]) => string;
 }
 
 export type DefaultOptions = Required<Options>;
