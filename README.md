@@ -2,7 +2,8 @@
 
 An event emitter that emits only new events. Because sometimes we don't care about old events.
 
-![Depfu](https://img.shields.io/depfu/fent/node-newsemitter)
+[![npm](https://img.shields.io/npm/v/newsemitter)](https://www.npmjs.com/package/newsemitter)
+[![Node.js CI](https://github.com/fent/node-newsemitter/actions/workflows/nodejs.yml/badge.svg)](https://github.com/fent/node-newsemitter/actions/workflows/nodejs.yml)
 [![codecov](https://codecov.io/gh/fent/node-newsemitter/branch/master/graph/badge.svg)](https://codecov.io/gh/fent/node-newsemitter)
 
 # Usage
