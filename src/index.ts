@@ -1,6 +1,5 @@
 import { EventEmitter } from 'events';
 
-
 export interface Options {
   filter?: null | string[];
   ignore?: null | string[];
@@ -26,17 +25,19 @@ export default class NewsEmitter extends EventEmitter {
     this.history = new Map<string, Set<string>>();
 
     // Set default options.
-    this.options = Object.assign({
-      filter: null,
-      ignore: ['newListener', 'removeListener'],
-      maxHistory: 10,
-      manageHistory: false,
-      identifier: JSON.stringify
-    }, options);
+    this.options = Object.assign(
+      {
+        filter: null,
+        ignore: ['newListener', 'removeListener'],
+        maxHistory: 10,
+        manageHistory: false,
+        identifier: JSON.stringify,
+      },
+      options,
+    );
 
     // Validate options.
-    if (this.options.filter !== null &&
-        !Array.isArray(this.options.filter)) {
+    if (this.options.filter !== null && !Array.isArray(this.options.filter)) {
       throw Error('options.filter must be an array if given');
     }
 
@@ -44,8 +45,10 @@ export default class NewsEmitter extends EventEmitter {
       throw Error('options.ignore must be an array if given');
     }
 
-    if (typeof this.options.maxHistory !== 'number' ||
-        this.options.maxHistory < 0) {
+    if (
+      typeof this.options.maxHistory !== 'number' ||
+      this.options.maxHistory < 0
+    ) {
       throw Error('options.maxHistory must be a positive integer');
     }
 
@@ -53,7 +56,6 @@ export default class NewsEmitter extends EventEmitter {
       throw Error('options.identifier must be a function');
     }
   }
-
 
   /**
    * Emits event, only if not already in history.
@@ -63,8 +65,12 @@ export default class NewsEmitter extends EventEmitter {
    * @return {boolean} Wether or not event was emitted
    */
   emit(event: string, ...args: any[]) {
-    if (Array.isArray(this.options.filter) && this.options.filter.indexOf(event) === -1 ||
-        Array.isArray(this.options.ignore) && this.options.ignore.indexOf(event) !== -1) {
+    if (
+      (Array.isArray(this.options.filter) &&
+        this.options.filter.indexOf(event) === -1) ||
+      (Array.isArray(this.options.ignore) &&
+        this.options.ignore.indexOf(event) !== -1)
+    ) {
       super.emit(event, ...args);
       return true;
     }
@@ -84,7 +90,6 @@ export default class NewsEmitter extends EventEmitter {
     // See if this event is already in history.
     if (found) {
       return false;
-
     } else {
       // If not found in history, this is news.
       super.emit(event, ...args);
@@ -104,10 +109,9 @@ export default class NewsEmitter extends EventEmitter {
     tistory.add(key);
     if (tistory.size > this.options.maxHistory) {
       // Remove the first item from history if size exteends `maxHistory`
-      tistory.delete(tistory.keys().next().value);
+      tistory.delete(tistory.keys().next().value!);
     }
   }
-
 
   /**
    * Resets event history.
@@ -122,7 +126,6 @@ export default class NewsEmitter extends EventEmitter {
     }
   }
 
-
   /**
    * Manual managing of event history.
    *
@@ -135,7 +138,7 @@ export default class NewsEmitter extends EventEmitter {
       this.history.set(event, tistory);
     }
 
-    for (let item of arr) {
+    for (const item of arr) {
       this._addHistory(tistory, this.options.identifier(item));
     }
   }
