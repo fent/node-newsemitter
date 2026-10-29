@@ -1,10 +1,11 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 
 export interface Options {
   filter?: null | string[];
   ignore?: null | string[];
   maxHistory?: number;
   manageHistory?: boolean;
+  // biome-ignore lint/suspicious/noExplicitAny: event emitter args are dynamically typed
   identifier?: (args: any[]) => string;
 }
 
@@ -64,6 +65,7 @@ export default class NewsEmitter extends EventEmitter {
    * @param {Object} ...args
    * @return {boolean} Wether or not event was emitted
    */
+  // biome-ignore lint/suspicious/noExplicitAny: event emitter args are dynamically typed
   emit(event: string, ...args: any[]) {
     if (
       (Array.isArray(this.options.filter) &&
@@ -109,7 +111,7 @@ export default class NewsEmitter extends EventEmitter {
     tistory.add(key);
     if (tistory.size > this.options.maxHistory) {
       // Remove the first item from history if size exteends `maxHistory`
-      tistory.delete(tistory.keys().next().value!);
+      tistory.delete(tistory.keys().next().value as string);
     }
   }
 
@@ -132,6 +134,7 @@ export default class NewsEmitter extends EventEmitter {
    * @param {string} event
    * @param {Array.<Object>} arr An array of items to add to history.
    */
+  // biome-ignore lint/suspicious/noExplicitAny: event emitter args are dynamically typed
   addHistory(event: string, arr: any[]) {
     const tistory = this.history.get(event) || new Set();
     if (!this.history.has(event)) {

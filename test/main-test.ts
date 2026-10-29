@@ -1,11 +1,11 @@
-import assert from 'assert';
+import assert from 'node:assert';
 import NewsEmitter from '..';
 
 describe('NEWS Emitter', () => {
   it('Should not emit old items', () => {
     const news = new NewsEmitter();
-    const results: {}[] = [];
-    news.on('foo', (item: {}) => results.push(item));
+    const results: unknown[] = [];
+    news.on('foo', (item: unknown) => results.push(item));
 
     assert.ok(news.emit('foo', { title: 'hello there' }));
     assert.ok(news.emit('foo', { title: 'hello world' }));
@@ -23,10 +23,10 @@ describe('NEWS Emitter', () => {
 
   it('Keeps different history for each event', () => {
     const news = new NewsEmitter();
-    const results1: {}[] = [];
-    const results2: {}[] = [];
-    news.on('foo', (item: {}) => results1.push(item));
-    news.on('bar', (item: {}) => results2.push(item));
+    const results1: unknown[] = [];
+    const results2: unknown[] = [];
+    news.on('foo', (item: unknown) => results1.push(item));
+    news.on('bar', (item: unknown) => results2.push(item));
 
     assert.ok(news.emit('foo', { so: 'lucky' }));
     assert.ok(news.emit('bar', { so: 'lucky' }));
@@ -82,10 +82,10 @@ describe('NEWS Emitter', () => {
   describe('Use NewsEmitter#reset()', () => {
     it('Emits events for resetted events', () => {
       const news = new NewsEmitter();
-      const results1: {}[] = [];
-      const results2: {}[] = [];
-      news.on('foo', (item: {}) => results1.push(item));
-      news.on('bar', (item: {}) => results2.push(item));
+      const results1: unknown[] = [];
+      const results2: unknown[] = [];
+      news.on('foo', (item: unknown) => results1.push(item));
+      news.on('bar', (item: unknown) => results2.push(item));
 
       assert.ok(news.emit('foo', { foo: 1, zee: 2 }));
       assert.ok(news.emit('foo', 'movie'));
@@ -161,7 +161,7 @@ describe('Filter events', () => {
 describe('Custom identifier', () => {
   it('Emits only items with different identifiers', () => {
     const news = new NewsEmitter({
-      identifier: (a: any[]) => /^foo/.test(a[0]) + '',
+      identifier: (a: string[]) => `${/^foo/.test(a[0])}`,
     });
     const results1: string[] = [];
     const results2: string[] = [];
