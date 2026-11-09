@@ -1,24 +1,23 @@
 import { EventEmitter } from 'node:events';
 
-export interface Options {
+export interface Options<T = unknown[]> {
   filter?: null | string[];
   ignore?: null | string[];
   maxHistory?: number;
   manageHistory?: boolean;
-  // biome-ignore lint/suspicious/noExplicitAny: event emitter args are dynamically typed
-  identifier?: (args: any[]) => string;
+  identifier?: (args: T) => string;
 }
 
-export type DefaultOptions = Required<Options>;
+export type DefaultOptions<T = unknown[]> = Required<Options<T>>;
 
-export default class NewsEmitter extends EventEmitter {
+export default class NewsEmitter<T = unknown[]> extends EventEmitter {
   public history: Map<string, Set<string>>;
-  public options: DefaultOptions;
+  public options: DefaultOptions<T>;
 
   /**
    * Emits only new events.
    */
-  constructor(options?: Options) {
+  constructor(options?: Options<T>) {
     super();
     this.history = new Map<string, Set<string>>();
 
@@ -29,7 +28,7 @@ export default class NewsEmitter extends EventEmitter {
         ignore: ['newListener', 'removeListener'],
         maxHistory: 10,
         manageHistory: false,
-        identifier: JSON.stringify,
+        identifier: JSON.stringify as unknown as (args: T) => string,
       },
       options,
     );
@@ -58,8 +57,7 @@ export default class NewsEmitter extends EventEmitter {
   /**
    * Emits event, only if not already in history.
    */
-  // biome-ignore lint/suspicious/noExplicitAny: event emitter args are dynamically typed
-  emit(event: string, ...args: any[]) {
+  emit(event: string, ...args: unknown[]) {
     if (
       (Array.isArray(this.options.filter) &&
         this.options.filter.indexOf(event) === -1) ||
@@ -70,16 +68,16 @@ export default class NewsEmitter extends EventEmitter {
       return true;
     }
 
-    const tistory = this.history.get(event) || new Set();
+    const eventHistory = this.history.get(event) || new Set();
     if (!this.history.has(event)) {
-      this.history.set(event, tistory);
+      this.history.set(event, eventHistory);
     }
-    const key = this.options.identifier(args);
-    const found = tistory.has(key);
+    const key = this.options.identifier(args as unknown as T);
+    const found = eventHistory.has(key);
 
     // Add event to history and truncate history.
     if (!this.options.manageHistory) {
-      this._addHistory(tistory, key);
+      this._addHistory(eventHistory, key);
     }
 
     // See if this event is already in history.
@@ -95,13 +93,13 @@ export default class NewsEmitter extends EventEmitter {
   /**
    * Adds one history item to an event's history.
    */
-  _addHistory(tistory: Set<string>, key: string) {
+  _addHistory(eventHistory: Set<string>, key: string) {
     // Re-add event from history so it gets moved to the back.
-    tistory.delete(key);
-    tistory.add(key);
-    if (tistory.size > this.options.maxHistory) {
+    eventHistory.delete(key);
+    eventHistory.add(key);
+    if (eventHistory.size > this.options.maxHistory) {
       // Remove the first item from history if size exteends `maxHistory`
-      tistory.delete(tistory.keys().next().value as string);
+      eventHistory.delete(eventHistory.keys().next().value as string);
     }
   }
 
@@ -119,15 +117,14 @@ export default class NewsEmitter extends EventEmitter {
   /**
    * Manual managing of event history.
    */
-  // biome-ignore lint/suspicious/noExplicitAny: event emitter args are dynamically typed
-  addHistory(event: string, arr: any[]) {
-    const tistory = this.history.get(event) || new Set();
+  addHistory(event: string, arr: T[]) {
+    const eventHistory = this.history.get(event) || new Set();
     if (!this.history.has(event)) {
-      this.history.set(event, tistory);
+      this.history.set(event, eventHistory);
     }
 
     for (const item of arr) {
-      this._addHistory(tistory, this.options.identifier(item));
+      this._addHistory(eventHistory, this.options.identifier(item));
     }
   }
 }
