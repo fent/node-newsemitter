@@ -17,9 +17,6 @@ export default class NewsEmitter extends EventEmitter {
 
   /**
    * Emits only new events.
-
-   * @param {Object} options
-   * @constructor
    */
   constructor(options?: Options) {
     super();
@@ -60,10 +57,6 @@ export default class NewsEmitter extends EventEmitter {
 
   /**
    * Emits event, only if not already in history.
-   *
-   * @param {string} event
-   * @param {Object} ...args
-   * @return {boolean} Wether or not event was emitted
    */
   // biome-ignore lint/suspicious/noExplicitAny: event emitter args are dynamically typed
   emit(event: string, ...args: any[]) {
@@ -101,9 +94,6 @@ export default class NewsEmitter extends EventEmitter {
 
   /**
    * Adds one history item to an event's history.
-   *
-   * @param {Set} tistory
-   * @param {string} key
    */
   _addHistory(tistory: Set<string>, key: string) {
     // Re-add event from history so it gets moved to the back.
@@ -117,8 +107,6 @@ export default class NewsEmitter extends EventEmitter {
 
   /**
    * Resets event history.
-   *
-   * @param {!String} event
    */
   reset(event?: string) {
     if (event) {
@@ -130,9 +118,6 @@ export default class NewsEmitter extends EventEmitter {
 
   /**
    * Manual managing of event history.
-   *
-   * @param {string} event
-   * @param {Array.<Object>} arr An array of items to add to history.
    */
   // biome-ignore lint/suspicious/noExplicitAny: event emitter args are dynamically typed
   addHistory(event: string, arr: any[]) {
