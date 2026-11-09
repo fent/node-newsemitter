@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import NewsEmitter from '..';
+import NewsEmitter from '../src';
 
 describe('NEWS Emitter', () => {
   it('Should not emit old items', () => {

@@ -1,16 +1,11 @@
 import { EventEmitter } from 'node:events';
 
-export interface Options<T = unknown[]> {
-  filter?: null | string[];
-  ignore?: null | string[];
-  maxHistory?: number;
-  manageHistory?: boolean;
-  identifier?: (args: T) => string;
-}
+type Options<T = unknown[]> = NewsEmitter.Options<T>;
+type DefaultOptions<T = unknown[]> = NewsEmitter.DefaultOptions<T>;
 
-export type DefaultOptions<T = unknown[]> = Required<Options<T>>;
-
-export default class NewsEmitter<T = unknown[]> extends EventEmitter {
+class NewsEmitter<T = unknown[]> extends EventEmitter {
+  static NewsEmitter = NewsEmitter;
+  static default = NewsEmitter;
   public history: Map<string, Set<string>>;
   public options: DefaultOptions<T>;
 
@@ -129,4 +124,21 @@ export default class NewsEmitter<T = unknown[]> extends EventEmitter {
   }
 }
 
+namespace NewsEmitter {
+  export interface Options<T = unknown[]> {
+    filter?: null | string[];
+    ignore?: null | string[];
+    maxHistory?: number;
+    manageHistory?: boolean;
+    identifier?: (args: T) => string;
+  }
+
+  export type DefaultOptions<T = unknown[]> = Required<Options<T>>;
+}
+
+// Statically recognizable exports for Node.js cjs-module-lexer (ESM named import support)
 module.exports = NewsEmitter;
+module.exports.default = NewsEmitter;
+module.exports.NewsEmitter = NewsEmitter;
+
+export = NewsEmitter;
