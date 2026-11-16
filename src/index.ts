@@ -38,7 +38,7 @@ class NewsEmitter<T = unknown[]> extends EventEmitter {
     }
 
     if (
-      typeof this.options.maxHistory !== 'number' ||
+      !Number.isInteger(this.options.maxHistory) ||
       this.options.maxHistory < 0
     ) {
       throw Error('options.maxHistory must be a positive integer');

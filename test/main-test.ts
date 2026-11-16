@@ -55,6 +55,11 @@ describe('NEWS Emitter', () => {
     assert.throws(() => {
       new NewsEmitter({ maxHistory: -10 });
     }, /must be a positive integer/);
+    for (const maxHistory of [Number.NaN, Number.POSITIVE_INFINITY, 1.5]) {
+      assert.throws(() => {
+        new NewsEmitter({ maxHistory });
+      }, /must be a positive integer/);
+    }
     assert.throws(() => {
       // @ts-expect-error-next-line
       new NewsEmitter({ identifier: 'keyes' });
@@ -76,6 +81,17 @@ describe('NEWS Emitter', () => {
       news.emit('aaa', 4);
       news.emit('aaa', 4);
       assert.deepEqual(results, [4, 5, 7, 4]);
+    });
+
+    it('Emits all events when `maxHistory` is 0', () => {
+      const news = new NewsEmitter({ maxHistory: 0 });
+      const results: number[] = [];
+      news.on('aaa', (a: number) => results.push(a));
+
+      assert.ok(news.emit('aaa', 4));
+      assert.ok(news.emit('aaa', 4));
+      assert.deepEqual(results, [4, 4]);
+      assert.equal(news.history.get('aaa')?.size, 0);
     });
   });
 
